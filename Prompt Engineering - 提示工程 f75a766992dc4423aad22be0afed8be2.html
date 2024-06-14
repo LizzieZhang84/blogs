@@ -1,0 +1,685 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Prompt Engineering - 提示工程</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="f75a7669-92dc-4423-aad2-2be0afed8be2" class="page mono"><header><img class="page-cover-image" src="Prompt%20Engineering%20-%20%E6%8F%90%E7%A4%BA%E5%B7%A5%E7%A8%8B%20f75a766992dc4423aad22be0afed8be2/3D5380179EBA7DDA0609426330F56BC5.jpg" style="object-position:center 14.62%"/><div class="page-header-icon page-header-icon-with-cover"><span class="icon">🤖</span></div><h1 class="page-title">Prompt Engineering - 提示工程</h1><p class="page-description"></p></header><div class="page-body"><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="5ad656b0-df45-417a-a877-e271255460d1"><div style="font-size:1.5em"><span class="icon">😈</span></div><div style="width:100%">相关推荐：<a href="https://www.notion.so/Prompt-Engineering-with-Llama-2-Llama2-9b261b0a064e47eb88b0e0b98457f5b4?pvs=21"><span class="icon">🍵</span>短课：Prompt Engineering with Llama 2 - Llama2的提示工程</a> </div></figure><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="980e6120-db2c-4372-ac70-2681d4ab4ebb"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%">翻译：<a href="https://lilianweng.github.io/posts/2023-03-15-prompt-engineering/">https://lilianweng.github.io/posts/2023-03-15-prompt-engineering/</a><br/>- 并非逐字翻译，只标记自学时的重点<br/>- 会加上一些自己的理解和批注<br/>- 随时更新 <br/></div></figure><nav id="1278c5e1-38cf-4c0a-9f12-e0e5d4c8a433" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#c5ea00c5-9004-4a23-b0cd-cb2ebd7e8274">Basic Prompting - 基本提示</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#177bea49-1a3f-41e6-bea4-d9108767a84c">Zero-shot - 零样本</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#d364d011-435e-4ee7-abdf-ca341ee2e3a2">Few-shot - 少样本</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#a382adb2-33d7-4a4b-bd91-a6b54f352a97">影响few-shot的因素</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#e0d610e8-f5aa-4cdf-aa9c-a9cdb5a8aee5">样例选择技巧</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#29168dcb-52d1-4d4f-b488-1b4cf68e8d70">样例排序技巧</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#f08b5596-f105-4b2a-87a2-838599b8bb67">Instruction Prompting - 指令提示</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#7bc9147b-260e-4930-9d21-dae80ed7beeb"><strong>Self-Consistency Sampling - 自一致性采样</strong></a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#976ee1a0-c171-43a7-ae1a-7db093fd05cc"><strong>Chain-of-Though (CoT) - 思维链</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#bad05632-ca4e-4b75-98f1-2efe7bfcf6f8">CoT的种类（主要分为2种）</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#51c98b55-2184-4ccc-b21b-4bcfcf4d65e7">Few-shot CoT</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#fff229ec-664d-4bb5-9868-0788c9f877e2">Zero-shot CoT</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#49b0bf79-27e6-4319-bd33-f8054a215682">CoT使用技巧与拓展</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#64688d01-4cbc-408a-ad44-a23e6500fbc2">CoT推理复杂度</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#d4772823-13e0-4438-bdd5-e62075e92a7e">Automatic Prompt Design - 提示设计自动化</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#52b58a68-b414-406b-8409-f8a5f130e518">常见方法</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#34099271-0363-4ba0-a9a8-75630649cd76">AutoPrompt</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#16113548-439e-4ee9-b46b-fbc7fb00ff7d">Prefix-Tuning</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#47dbb717-f3ca-4b46-a2f4-cf474eecdb1a">P-tuning</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#0c2da78b-ce67-40cb-bb37-2f60a7701704">Prompt-Tuning</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#60e4122f-07fe-40d1-a354-74781698847a">APE - Automatic Prompt Engineer</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#5a4a1c0c-742b-456e-8d55-8eef15086456">Augmented Language Models - 加强版语言模型</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#19ab06ff-f645-4072-91ec-a1422b0eb7f9">Retrieval - 检索增强</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#2584c352-9b19-4d50-9c97-5c14c98f5d37">举例：利用谷歌搜索增强大模型</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#456c66d8-f819-4fd3-b92d-452caa58d0cf">Programming Language - 编程语言增强</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#af4f39fe-f370-4a16-89a3-c057b6ece1e2">External API - 外部接口增强</a></div></nav><p id="e510bc9a-c25c-47a3-9085-7d9f062a3831" class="">
+</p><p id="9f1f3d4e-48e2-4424-86cf-46c8560e000c" class="">提示工程（prompt engineering, aka. in-context prompting）是指<mark class="highlight-purple"><strong>不更新模型的权重</strong></mark>使模型能有更好的输出。</p><p id="029e2730-1b19-423d-b518-7097f7ec6f73" class="">这篇博文仅关注自回归语言模型的提示工程，不涉及填空（Cloze tests）、图像生成、多模态模型。</p><p id="58b58379-2910-4ddf-ab88-57e493ef4037" class="">
+</p><h1 id="c5ea00c5-9004-4a23-b0cd-cb2ebd7e8274" class="">Basic Prompting - 基本提示</h1><p id="012ffecc-d599-4a51-b3f5-e5db69ffaff2" class="">零样本（zero-shot）和少样本（few-shot）学习是提示工程中最基础的两个方法，在很多大模型的文章中被使用，并用来测评大模型性能。</p><h2 id="177bea49-1a3f-41e6-bea4-d9108767a84c" class="">Zero-shot - 零样本</h2><ul id="ac77e6bf-fc01-492c-8b67-60565fba96bf" class="bulleted-list"><li style="list-style-type:disc">直接给出task文本让LLM生成</li></ul><h2 id="d364d011-435e-4ee7-abdf-ca341ee2e3a2" class="">Few-shot - 少样本</h2><ul id="b8c3821f-97a1-4552-8075-c45ce65be160" class="bulleted-list"><li style="list-style-type:disc">在prompt中给出和任务类似的、高质量的“<code>输入-输出</code>”样例（demonstration）</li></ul><ul id="17ed20e9-40fb-4d80-a922-b61ea5c907e5" class="bulleted-list"><li style="list-style-type:disc">一般效果要比zero-shot更好</li></ul><ul id="6c4bf4b5-9f24-458a-97b3-e33d311ebe3d" class="bulleted-list"><li style="list-style-type:disc">但与此同时成本更高，因为输入和输出都变长了</li></ul><h3 id="a382adb2-33d7-4a4b-bd91-a6b54f352a97" class="">影响few-shot的因素</h3><ul id="856e7bef-02c0-4f5c-9088-41c62491ac39" class="bulleted-list"><li style="list-style-type:disc">prompt format的选择</li></ul><ul id="11e63788-c620-4d01-aef7-f5f69a0cb136" class="bulleted-list"><li style="list-style-type:disc">训练样例</li></ul><ul id="33616e26-9c01-4cec-aab7-99cda227693b" class="bulleted-list"><li style="list-style-type:disc">样例的顺序</li></ul><p id="2e0c8d84-131b-4713-aa3c-eb25ffde16e5" class=""><a href="https://arxiv.org/abs/2102.09690">https://arxiv.org/abs/2102.09690</a> 探究了在few-shot分类任务中可能存在的偏差：</p><ul id="7cdc99e3-9d15-4a5e-b495-b5095511f697" class="bulleted-list"><li style="list-style-type:disc"><em>majority label bias</em> 占多数的标签容易被重复</li></ul><ul id="25a3a784-d48a-496a-922f-9489673aa82e" class="bulleted-list"><li style="list-style-type:disc"><em>recency bias</em> 末尾的标签更容易被重复</li></ul><ul id="5c26c511-c973-4a96-bd67-324744a1e845" class="bulleted-list"><li style="list-style-type:disc"><em>common token bias</em> 更常见的token更容易被产出</li></ul><h3 id="e0d610e8-f5aa-4cdf-aa9c-a9cdb5a8aee5" class="">样例选择技巧</h3><ul id="38e59ec7-387b-48df-b5e6-aab8673e7dc1" class="bulleted-list"><li style="list-style-type:disc">k-NN聚类选择semantically similar demonstrations（<a href="https://arxiv.org/abs/2101.06804">https://arxiv.org/abs/2101.06804</a>）</li></ul><ul id="dd8e9669-9b2b-422b-8655-88fb560c9377" class="bulleted-list"><li style="list-style-type:disc">可以利用基于图的方法选择更多样和具有代表性的样例（<a href="https://arxiv.org/abs/2209.01975">https://arxiv.org/abs/2209.01975</a>）</li></ul><ul id="bfe99c68-d722-423b-9c35-8856a3617469" class="bulleted-list"><li style="list-style-type:disc">使用对比学习训练embeddings去做selection（<a href="https://arxiv.org/abs/2112.08633">https://arxiv.org/abs/2112.08633</a>）</li></ul><ul id="30466f92-682d-42da-9569-a66848fdfc6d" class="bulleted-list"><li style="list-style-type:disc">Q-learning（<a href="https://arxiv.org/abs/2211.04486">https://arxiv.org/abs/2211.04486</a>）</li></ul><ul id="3531b9ad-f26c-41d9-a414-55121614062a" class="bulleted-list"><li style="list-style-type:disc">选择更具disagreement或entropy更高的样例（<a href="https://arxiv.org/abs/2302.12246">https://arxiv.org/abs/2302.12246</a>）</li></ul><h3 id="29168dcb-52d1-4d4f-b488-1b4cf68e8d70" class="">样例排序技巧</h3><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="b2079a0e-2119-4650-94f6-087fec693c49"><div style="font-size:1.5em"><span class="icon">👾</span></div><div style="width:100%">相关内容： </div></figure><ul id="0b37e190-30a7-4c81-ac74-410922f095d6" class="bulleted-list"><li style="list-style-type:disc">一个通用的方法：使样例尽可能丰富，这样随机摆放也能避免majority label bias和recency bias</li></ul><ul id="dd44506f-a469-4497-a583-c10b8dd11f3c" class="bulleted-list"><li style="list-style-type:disc">同样的顺序对不不同的模型效果可能天差地别，在有限验证集下，寻找一个平衡（表现还算合理）的顺序</li></ul><p id="58a0a0f3-2926-4d15-99a5-bac4505e3f7e" class="">
+</p><h1 id="f08b5596-f105-4b2a-87a2-838599b8bb67" class="">Instruction Prompting - 指令提示</h1><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="b2861b08-0a52-4c04-bc13-8f52d3e81cc9"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%">拓展阅读： </div></figure><ul id="9cfecf07-b729-4fc7-967a-5c4faffdfe51" class="bulleted-list"><li style="list-style-type:disc"><em>Instructed LM</em>通过高质量的（task instruction, input, ground truth output）<mark class="highlight-purple"><strong>微调</strong></mark>预训练模型，使其能够更好理解用户意图并遵循指令。</li></ul><ul id="e6026474-e9a0-4a88-81cc-8356620771d3" class="bulleted-list"><li style="list-style-type:disc"><em>RLHF</em>（Reinforcement Learning from Human Feedback）是一种常见的指令微调方法</li></ul><ul id="d76e6e4d-a14a-4d43-ae91-ffa32eee68a6" class="bulleted-list"><li style="list-style-type:disc">写指令时，我们要尽可能精确详细，告诉模型“what to do”，并且尽量避免说“not do something”</li></ul><ul id="779f9c91-9601-4a92-b104-a1caad5f9fc0" class="bulleted-list"><li style="list-style-type:disc"><em>In-context instruction learning</em>结合few-shot learning和instruction prompting</li></ul><p id="c4dc8506-117b-48f4-9c69-c2136d8d67f9" class="">
+</p><h1 id="7bc9147b-260e-4930-9d21-dae80ed7beeb" class=""><strong>Self-Consistency Sampling - 自一致性采样</strong></h1><ul id="ffe6c5cc-4822-41bf-968d-31c3017e3044" class="bulleted-list"><li style="list-style-type:disc">这里的sampling指的是解码方法中的采样，常见解码方法如：greedy sampling, random sampling, bean search (<code>top-p</code>, <code>top-k</code>)</li></ul><ul id="2ab614cd-db7c-49f7-b5f1-8063a71f993a" class="bulleted-list"><li style="list-style-type:disc"><em>Self-consistency sampling</em>是在模型<code>temperature &gt; 0</code>是采样多个outputs，然后再所有候选回答中选择一个最好的回答。<ul id="2db9ac68-5e11-4e18-83bc-fb02b84919a3" class="bulleted-list"><li style="list-style-type:circle"><a href="https://arxiv.org/abs/2203.11171">https://arxiv.org/abs/2203.11171</a></li></ul><ul id="9c58aa5e-d988-4c78-b76b-03311d7dbebc" class="bulleted-list"><li style="list-style-type:circle">不同的任务有不同的选择方法</li></ul><ul id="cfe9f6d0-df83-4fec-8fac-1cda3248eb8f" class="bulleted-list"><li style="list-style-type:circle">最常见的就是Majority vote</li></ul><ul id="c870d0f9-e7b2-4207-a97c-5716250f9cdd" class="bulleted-list"><li style="list-style-type:circle">对于编程问题，可以直接在编译器中运行然后通过unit test验证正确性</li></ul></li></ul><p id="6c9d323e-13fa-493f-bf97-ce08d78d6490" class="">
+</p><h1 id="976ee1a0-c171-43a7-ae1a-7db093fd05cc" class=""><strong>Chain-of-Though (CoT) - 思维链</strong></h1><ul id="82d5e4c8-b18b-4668-a0bc-7943dfcfbde1" class="bulleted-list"><li style="list-style-type:disc">CoT prompting是指用一段话展现一步步推理的逻辑知道获得最终答案</li></ul><ul id="f65886fc-e055-4ecb-b9d2-5c915effdbd9" class="bulleted-list"><li style="list-style-type:disc">CoT的好处在以下情况才能够显现：<ul id="b32e3542-3b20-40b8-b297-72e54c4649e6" class="bulleted-list"><li style="list-style-type:circle">复杂的推理推理任务</li></ul><ul id="a739d1c2-1e56-4aef-88dd-029ff94de5e3" class="bulleted-list"><li style="list-style-type:circle">大模型（例如，参数量<code>&gt;50B</code>）</li></ul><ul id="8b63096f-1a2f-4718-8b35-b47c4c918815" class="bulleted-list"><li style="list-style-type:circle">一些简单的任务使用CoT的好处甚微</li></ul></li></ul><h2 id="bad05632-ca4e-4b75-98f1-2efe7bfcf6f8" class="">CoT的种类（主要分为2种）</h2><h3 id="51c98b55-2184-4ccc-b21b-4bcfcf4d65e7" class="">Few-shot CoT</h3><ul id="282e96a8-f903-4ee5-8d9f-17fc8e119d44" class="bulleted-list"><li style="list-style-type:disc">给模型几个样例并包含人工/模型书写的高质量的推理链</li></ul><h3 id="fff229ec-664d-4bb5-9868-0788c9f877e2" class="">Zero-shot CoT</h3><ul id="d35abb86-0bed-4c0b-a0a1-80d832f8cb6b" class="bulleted-list"><li style="list-style-type:disc">使用自然语言，如“让我们一步步思考（Let’s think step by styp）”类似语句，直接鼓励模型首先生成推理链，然后再给出答案</li></ul><h2 id="49b0bf79-27e6-4319-bd33-f8054a215682" class="">CoT使用技巧与拓展</h2><ul id="1c1b811e-feb9-4681-8467-56b89bffd954" class="bulleted-list"><li style="list-style-type:disc">self-consistency sampling + majority vote能够提高推理的准确率（<a href="https://arxiv.org/abs/2203.11171">https://arxiv.org/abs/2203.11171</a>）</li></ul><ul id="9a7f3761-0536-49c8-9f91-d6152f99476a" class="bulleted-list"><li style="list-style-type:disc">通过改变样例顺序或使用模型生成的推理替代人工推理引入随机性，最后再使用majority vote（<a href="https://arxiv.org/abs/2207.00747">https://arxiv.org/abs/2207.00747</a>）</li></ul><ul id="f5f649d5-84ac-47c0-b9da-656ff449f07c" class="bulleted-list"><li style="list-style-type:disc">如果样例只有正确答案（很容易验证！）但没有推理，可以根据<em>STaR</em> (Self-Taught Reasoner: <a href="https://arxiv.org/abs/2203.14465">https://arxiv.org/abs/2203.14465</a>）：(1)让LLM生成推理链并只保留最终能获得正确答案的内容；(2) 用这些生成的推理去微调模型直到收敛。</li></ul><ul id="5e8f6cc1-4280-4813-aaed-b08f220393d8" class="bulleted-list"><li style="list-style-type:disc">在prompt中将<code>Q:</code>变成<code>Question:</code>效果更好。</li></ul><ul id="d151ddc2-7247-4b21-95c3-a4dcd385adc5" class="bulleted-list"><li style="list-style-type:disc">对于需要在文本基础上推理的任务（如QA、NLI），加入解释不一定有用。与此同时，解释容易变得不符合事实（nonfactual），反而导致不正确的预测结果。（<a href="https://arxiv.org/abs/2205.03401">https://arxiv.org/abs/2205.03401</a>）</li></ul><ul id="5203acf0-d1d0-4b8f-b866-5dfa3345989e" class="bulleted-list"><li style="list-style-type:disc"><em>Self-Ask</em>让模型不断询问<code>follow-up questions</code>，在不断迭代中形成思维过程，并且这些<code>follow-up questions</code>由搜索引擎回答（<a href="https://arxiv.org/abs/2210.03350">https://arxiv.org/abs/2210.03350</a>）。类似的方法有<em>IRCoT</em>（Interleaving Retrieval, <a href="https://arxiv.org/abs/2212.10509">https://arxiv.org/abs/2212.10509</a>）和<em>ReAct</em>（Reason + Act，<a href="https://arxiv.org/abs/2210.03629">https://arxiv.org/abs/2210.03629</a>）。</li></ul><ul id="a1b3ee54-bda6-4986-877d-323bfb498e43" class="bulleted-list"><li style="list-style-type:disc"><em>Tree of Thoughts</em>通过探究每一步分多个推理概率以拓展CoT。这种方法将一个问题分成多步，然后给每一步生成多个思维过程（这就形成了一个树）。搜索方法可以是BFS或DFS，并通过一个分类器或majority vote来评估（<a href="https://arxiv.org/abs/2305.10601">https://arxiv.org/abs/2305.10601</a>）。</li></ul><h3 id="64688d01-4cbc-408a-ad44-a23e6500fbc2" class="">CoT推理复杂度</h3><ul id="192e7109-2bd1-427b-9b48-f4b1c8bfed6f" class="bulleted-list"><li style="list-style-type:disc">推理复杂度（reasoning complexity）可以通过思维链中推理步骤数量来衡量。推理复杂度越高，一般效果越好。注意：划分推理步骤时<code>\n</code>比<code>step i</code>、<code>句号</code>、<code>分号</code>等效果好（<a href="https://arxiv.org/abs/2210.00720">https://arxiv.org/abs/2210.00720</a>）</li></ul><ul id="2280a937-57be-4146-97e0-7ab777c4d53f" class="bulleted-list"><li style="list-style-type:disc">基于复杂度的一致性（complexity-based consistency）指的是在majority vote的过程中偏好<code>top-k</code>复杂的思维链（<a href="https://arxiv.org/abs/2210.00720">https://arxiv.org/abs/2210.00720</a>）</li></ul><ul id="caf93c96-5430-462c-a061-43afab00ffde" class="bulleted-list"><li style="list-style-type:disc">但以上关于复杂度的假设只在复杂问题上成立，对于简单问题并不一定成立（<a href="https://arxiv.org/abs/2302.12822">https://arxiv.org/abs/2302.12822</a>）</li></ul><p id="3f2a9429-00ba-4a56-9791-666657a51bf1" class="">
+</p><h1 id="d4772823-13e0-4438-bdd5-e62075e92a7e" class="">Automatic Prompt Design - 提示设计自动化</h1><p id="7d9086f6-8dbf-4849-aa3f-2f457d32f8f2" class="">Prompt可以理解为“a sequence of prefix tokens”，用来提高input获得想要的输出的概率。因此，我们可以<mark class="highlight-purple"><span style="border-bottom:0.05em solid">把prompt当成可训练的参数（trainable parameters）并在嵌入层通过梯度下降直接优化</span></mark>。</p><h2 id="52b58a68-b414-406b-8409-f8a5f130e518" class="">常见方法</h2><figure id="c0c4c5b5-ac0f-4788-9a89-64597db2cd52"><a href="https://lilianweng.github.io/posts/2021-01-02-controllable-text-generation/#smart-prompt-design" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Controllable Neural Text Generation</div><div class="bookmark-description">[Updated on 2021-02-01: Updated to version 2.0 with several work added and many typos fixed.] [Updated on 2021-05-26: Add P-tuning and Prompt Tuning in the “prompt design” section.] [Updated on 2021-09-19: Add “unlikelihood training”.] There is a gigantic amount of free text on the Web, several magnitude more than labelled benchmark datasets. The state-of-the-art language models (LM) are trained with unsupervised Web data in large scale. When generating samples from LM by iteratively sampling the next token, we do not have much control over attributes of the output text, such as the topic, the style, the sentiment, etc.</div></div><div class="bookmark-href"><img src="https://lilianweng.github.io/favicon-32x32.png" class="icon bookmark-icon"/>https://lilianweng.github.io/posts/2021-01-02-controllable-text-generation/#smart-prompt-design</div></div></a></figure><h3 id="34099271-0363-4ba0-a9a8-75630649cd76" class="">AutoPrompt</h3><p id="17cfea8d-97ca-4698-9403-907a85e85b9b" class=""><a href="https://arxiv.org/abs/2010.15980">https://arxiv.org/abs/2010.15980</a></p><h3 id="16113548-439e-4ee9-b46b-fbc7fb00ff7d" class="">Prefix-Tuning</h3><p id="bca28e78-daad-411b-b467-20eed20d7f0f" class=""><a href="https://arxiv.org/abs/2101.00190">https://arxiv.org/abs/2101.00190</a></p><h3 id="47dbb717-f3ca-4b46-a2f4-cf474eecdb1a" class="">P-tuning</h3><p id="665444f2-5b90-4b81-b69a-fbd468a39e16" class=""><a href="https://arxiv.org/abs/2103.10385">https://arxiv.org/abs/2103.10385</a></p><h3 id="0c2da78b-ce67-40cb-bb37-2f60a7701704" class="">Prompt-Tuning</h3><p id="20643ea5-670b-4b0d-bc76-413d77501540" class=""><a href="https://arxiv.org/abs/2104.08691">https://arxiv.org/abs/2104.08691</a></p><h3 id="60e4122f-07fe-40d1-a354-74781698847a" class="">APE - Automatic Prompt Engineer</h3><p id="2b9667e0-b1a3-4879-97ae-bfe58f6a8391" class=""><a href="https://arxiv.org/abs/2211.01910">https://arxiv.org/abs/2211.01910</a></p><p id="d22b2159-3a3a-402c-b42b-9b8e11627822" class="">
+</p><h1 id="5a4a1c0c-742b-456e-8d55-8eef15086456" class="">Augmented Language Models - 加强版语言模型</h1><h2 id="19ab06ff-f645-4072-91ec-a1422b0eb7f9" class="">Retrieval - 检索增强</h2><p id="779885b2-cfef-4406-9ecf-55b270192ab7" class=""> ← for more information</p><h3 id="2584c352-9b19-4d50-9c97-5c14c98f5d37" class="">举例：利用谷歌搜索增强大模型</h3><p id="83381819-d1cc-42e3-acc9-d131714129a5" class="">（<a href="https://arxiv.org/abs/2203.05115">https://arxiv.org/abs/2203.05115</a>）</p><p id="23c2c566-8b8d-4eea-b32b-44d73ddf8165" class="">给定一个问题<code>q</code>，在谷歌搜索到<code>20个URLs</code></p><p id="21a2f7d6-3b60-470e-9bd7-4f14654dfd5d" class="">将这20个URLs包含的文件集合中的每个doc以6句为一个paragraph切分获得<code>{p}</code></p><p id="6eab1ff7-8dec-4939-8ba4-c37bc9882969" class="">使用TF-IDF计算每个<code>paragraph</code>和<code>q</code>之间的语义距离，找到<code>最相关的一个paragraph</code>放入prompt获得一个回答<code>a</code></p><h2 id="456c66d8-f819-4fd3-b92d-452caa58d0cf" class="">Programming Language - 编程语言增强</h2><ul id="9a05e023-189e-4200-ac9b-16f63c891b71" class="bulleted-list"><li style="list-style-type:disc">即换一种linguistic representation</li></ul><ul id="7ad662a9-f619-4b71-afb1-e67d41806e59" class="bulleted-list"><li style="list-style-type:disc">例如，同一个数学问题，使用python语言表述给模型可以获得正确答案，但是使用自然语言则不能获得正确答案</li></ul><h2 id="af4f39fe-f370-4a16-89a3-c057b6ece1e2" class="">External API - 外部接口增强</h2><p id="927e1d15-852c-48f7-af98-76f163f7ea0f" class="">
+</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
